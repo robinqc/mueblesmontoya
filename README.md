@@ -19,3 +19,5 @@ You will also see any lint errors in the console.
 Packages the app for Windows and Linux platform and builds it in distribution-ready *.deb, *.AppImage and *.exe installers.
 
 This is still an ongoing project.
+
+Tengo el nombre empeñado.
