@@ -31,8 +31,8 @@ function App() {
 
             <Navbar.Body>
               <Nav >     
-                <Link to="/montoya" style={{color:"white"}}><Nav.Item icon={<Icon icon="home" />} >Muebles Montoya</Nav.Item></Link>
-                <Link to="/serrati" style={{color:"white"}}><Nav.Item icon={<Icon icon="home" />} >Colchones Serrati</Nav.Item></Link>
+                <Nav.Item icon={<Icon icon="home" />} componentClass={Link} to="/montoya">Muebles Montoya</Nav.Item>
+                <Nav.Item icon={<Icon icon="home" />} componentClass={Link} to="/serrati">Colchones Serrati</Nav.Item>
                 </Nav>
               
               
@@ -41,9 +41,11 @@ function App() {
             </Navbar.Body>
           </Navbar>
         </Header>
+        <Redirect from="/" to="/serrati"/>
         <Content>
               <Switch>
-              <Route path="/montoya"><Dashboard title="Montoya" db={db.collection('pedidos serrati')}/></Route>
+                
+              <Route path="/montoya">En construcción</Route>
               <Route path="/serrati"><Dashboard title="Serrati" db={db.collection('pedidos serrati')}/></Route>
             </Switch>
           

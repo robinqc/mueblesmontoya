@@ -6,7 +6,7 @@ class ListaPedidos extends Component {
     state = {  }
     render() { 
         return ( 
-            <FlexboxGrid justify="space-around" style={{height:"86vh", overflowY:"scroll", paddingTop:"3vh"}}>
+            <FlexboxGrid justify="space-around" style={{height:"84vh", overflowY:"scroll", paddingTop:"3vh"}}>
                 {
                     this.props.pedidos.map(pedido=>(
                         <Pedido 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlexboxGrid, Panel, Button, Form, DatePicker, FormGroup, FormControl, ControlLabel, HelpBlock, Modal } from 'rsuite';
+import { Alert, FlexboxGrid, Panel, Button, Form, DatePicker, FormGroup, FormControl, ControlLabel, HelpBlock, Modal, SelectPicker } from 'rsuite';
 
 class Pedido extends Component {
     constructor(props){
@@ -18,7 +18,8 @@ class Pedido extends Component {
                 direccion: this.props.direccion,
                 producto: this.props.producto,
                 fecha: fech,
-                total: this.props.total
+                total: this.props.total,
+                estado: this.props.estado
             },
             show: false
         };
@@ -26,6 +27,12 @@ class Pedido extends Component {
         this.open = this.open.bind(this);
         this.handleChange = this.handleChange.bind(this);
         
+    }
+    handleEstado = (value) => {
+        this.setState({formValue: {
+            ...this.state.formValue,
+            estado: value
+        }})
     }
     close() {
         this.setState({ show: false });
@@ -99,15 +106,15 @@ class Pedido extends Component {
                                     (<Button color="violet"style={{width:"100px"}} onClick={this.cambiarEstado}>{this.props.estado}</Button>))
                                 }
                                 <Button style={{ width:"80px"}} appearance="primary" onClick={this.open}>Editar</Button>
-                                <Button color="red"style={{ width:"80px"}} onClick={()=>this.props.db.doc(this.props.id).delete()}>Cancelar</Button>
+                                <Button color="red"style={{ width:"80px"}} onClick={()=>{this.props.db.doc(this.props.id).delete(); Alert.success("Pedido eliminado", 5000)}}>Cancelar</Button>
                                 </FlexboxGrid>
                             </FlexboxGrid.Item>
                         </FlexboxGrid>
-                        <Modal show={this.state.show} onHide={this.close} size="xs">
+                        <Modal show={this.state.show} onHide={this.close} size="xs" >
                             <Modal.Header>
                                 <Modal.Title>Editar pedido</Modal.Title>
                             </Modal.Header>
-                            <Modal.Body>
+                            <Modal.Body style={{maxHeight:"100vh"}}>
                                 <Form
                                 fluid
                                 onChange={this.handleChange}
@@ -179,6 +186,32 @@ class Pedido extends Component {
                             </Form>
                             </Modal.Body>
                             <Modal.Footer>
+                                <SelectPicker
+                                    style={{
+                                        marginLeft: "0",
+                                        marginRight:"20%"
+                                    }}
+                                    value={this.state.formValue.estado}
+                                    onChange={this.handleEstado}
+                                    placement="topStart"
+                                    searchable={false}
+                                    data={[
+                                        {
+                                            label: "Pendiente",
+                                            value: "Pendiente"
+                                        },
+                                        {
+                                            label: "Entregado",
+                                            value: "Entregado"
+                                        },
+                                        {
+                                            label: "Cambio",
+                                            value: "Cambio"
+                                        },
+                                    ]}
+                                >
+                                    
+                                </SelectPicker>
                                 <Button onClick={()=>{
                                     this.props.db.doc(this.props.id).set(this.state.formValue, {merge:true})
                                     this.close()

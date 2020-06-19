@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { Table, FlexboxGrid, InputGroup, Input, Icon } from 'rsuite';
-import { Panel, PanelGroup} from 'rsuite';
-import Pedido from './Pedido';
+import {InputGroup, Input, Icon } from 'rsuite';
 import ListaPedidos from './ListaPedidos';
 
-const { Column, HeaderCell, Cell, Pagination } = Table;
 
 class Pedidos extends Component {
     state = { pedidos:[], encontrados:[]}
@@ -17,21 +14,27 @@ class Pedidos extends Component {
                 let fechapedido
                 if(typeof data.fecha == "string") fechapedido = new Date(data.fecha)
                 else fechapedido = data.fecha.toDate()
+                data.fechaformat = fechapedido
                 
-                if(this.props.filter.field == "fecha"){
-                    let hoy = new Date()
-                    if(fechapedido.getUTCDate()<=hoy.getUTCDate() && fechapedido.getUTCMonth() <= hoy.getUTCMonth() && data.estado=="Pendiente"){
-                        pedidos.push(data)
+                if(this.props.filter){
+                    if(this.props.filter.field == "fecha"){
+                        let hoy = new Date()
+                        if(fechapedido.getUTCDate()<=hoy.getUTCDate() && fechapedido.getUTCMonth() <= hoy.getUTCMonth() && data.estado=="Pendiente"){
+                            pedidos.push(data)
+                        }
                     }
-                }
-                else if(this.props.filter.field == "estado"){
-                    if(data.estado == this.props.filter.value){
-                        pedidos.push(data)
+                    else if(this.props.filter.field == "estado"){
+                        if(data.estado == this.props.filter.value){
+                            pedidos.push(data)
+                        }
                     }
+                }else{
+                    pedidos.push(data)
                 }
             }.bind(this))
-            this.setState({pedidos: pedidos})
-            this.setState({encontrados: pedidos})
+            let ordenados = pedidos.sort((a,b)=>a.fechaformat - b.fechaformat)
+            this.setState({pedidos: ordenados})
+            this.setState({encontrados: ordenados})
         })
     }
     buscar = (value) => {
@@ -45,16 +48,18 @@ class Pedidos extends Component {
     }
     render() { 
         return ( <div style={{textAlign:"left"}}>
-            <InputGroup size="lg"style={{
+            <InputGroup style={{
                 borderRadius:"0", 
                 borderTop:"none", 
                 borderRight:"none",
-                borderLeft:"none"}}  
+                borderLeft:"none",
+                height:"7vh"}}  
             >
-                <Input placeholder="Buscar por cédula o nombre..." onChange={(value)=>this.buscar(value)}/>
                 <InputGroup.Button style={{borderRadius:"0"}}>
                 <Icon icon="search" />
                 </InputGroup.Button>
+                <Input placeholder="Buscar por cédula o nombre..." onChange={(value)=>this.buscar(value)} style={{height:"7vh"}}/>
+                
             </InputGroup>
             <ListaPedidos pedidos={this.state.encontrados} db={this.props.db}/>
         </div> );

@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Button, ButtonToolbar, DatePicker, FlexboxGrid, Sidenav, Nav, Icon, Dropdown, Form, FormGroup, FormControl, ControlLabel, HelpBlock } from 'rsuite';
+import React, { useState } from 'react';
+import { FlexboxGrid, Sidenav, Nav, Icon, Dropdown } from 'rsuite';
 import {
     BrowserRouter as Router,
     Switch,
@@ -7,27 +7,30 @@ import {
     Link,
     Redirect,
     useParams,
-    useRouteMatch
+    useRouteMatch,
+    withRouter
   } from "react-router-dom";
 import Pedidos from './Pedidos'
 import NuevoPedido from './NuevoPedido'
 function  Dashboard(props){  
+    let [activeKey, setActiveKey] = useState()
     let {path, url} = useRouteMatch()
         return (
             <Router>
             <FlexboxGrid style={{height:"92vh"}}>
                 <FlexboxGrid.Item colspan={4}>
-                <Sidenav defaultOpenKeys={['3', '4']} activeKey="1" style={{height:"92vh", maxHeight:"100%", minHeight:"100%"}}>
+                <Sidenav defaultOpenKeys={['3', '4']} activeKey={activeKey} style={{height:"92vh", maxHeight:"100%", minHeight:"100%"}}>
                     <Sidenav.Body>
                         <Nav>
-                        <Nav.Item eventKey="1" icon={<Icon icon="home" />} style={{padding:"20px", fontSize:"20px", backgroundColor:"lightgray", color:"black"}}>
+                        <div style={{padding:"10px", height:"7vh", fontSize:"20px", backgroundColor:"#002046", color:"white"}}>
                             {props.title}
-                        </Nav.Item>
-                        <Dropdown eventKey="3" title="Pedidos" icon={<Icon icon="edit" />}>
-                        <Link to={`${url}/hoy`} style={{color:"gray"}}><Dropdown.Item eventKey="3-1">Pedidos de Hoy</Dropdown.Item></Link>
-                        <Link to={`${url}/pendientes`} style={{color:"gray"}}><Dropdown.Item eventKey="3-2">Pedidos pendientes</Dropdown.Item></Link>
-                        <Link to={`${url}/cambios`} style={{color:"gray"}}><Dropdown.Item eventKey="3-3">Cambios</Dropdown.Item></Link>
-                        <Link to={`${url}/entregados`} style={{color:"gray"}}><Dropdown.Item eventKey="3-4">Entregados</Dropdown.Item></Link>
+                        </div>
+                        <Dropdown eventKey="3" activeKey="1" title="Pedidos" icon={<Icon icon="edit" />}>
+                        <Dropdown.Item eventKey="3-1" componentClass={Link} to={`${url}/hoy`} onClick={()=>setActiveKey("3-1")}>Pedidos de Hoy</Dropdown.Item>
+                        <Dropdown.Item eventKey="3-2" componentClass={Link} to={`${url}/pendientes`} onClick={()=>setActiveKey("3-2")}>Pedidos pendientes</Dropdown.Item>
+                        <Dropdown.Item eventKey="3-3" componentClass={Link} to={`${url}/cambios`} onClick={()=>setActiveKey("3-3")}>Cambios</Dropdown.Item>
+                        <Dropdown.Item eventKey="3-4" componentClass={Link} to={`${url}/entregados`} onClick={()=>setActiveKey("3-4")}>Entregados</Dropdown.Item>
+                        <Dropdown.Item eventKey="3-5" componentClass={Link} to={`${url}/todos`} onClick={()=>setActiveKey("3-5")}>Todos</Dropdown.Item>
                         </Dropdown>
                         
                         </Nav>
@@ -68,6 +71,9 @@ function  Dashboard(props){
                                     value: 'Entregado'
                                 }}/>
                                 </Route>
+                                <Route path={`${url}/todos`}>
+                                <Pedidos key="vertodos" title={`de hoy ${props.title}`} db={props.db} />
+                                </Route>
                             </Switch>
                         </FlexboxGrid.Item>
                         <NuevoPedido db={props.db}/>
@@ -79,4 +85,4 @@ function  Dashboard(props){
     
 }
  
-export default Dashboard;
+export default withRouter(Dashboard);

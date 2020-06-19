@@ -1,14 +1,17 @@
 {
-  "name": "renderer",
-  "version": "0.1.0",
+  "name": "pedidos",
+  "version": "1.0.0",
   "private": true,
+  "author":{
+    "name": "Robin Quintero",
+    "email": "marzg.zl55@gmail.com"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "firebase": "^7.15.1",
     "hide-scrollbar-react": "^1.1.6",
-    "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
@@ -54,9 +57,15 @@
       "buildResources": "public"
     },
     "extends":null,
+    "linux":{
+      "target":[
+        "AppImage",
+        "deb"
+      ]
+    },
     "win": {
       "target": [
-        "zip"
+        "nsis"
       ]
     }
   }

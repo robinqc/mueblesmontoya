@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, FlexboxGrid, Form, FormControl, ControlLabel, DatePicker, Button, ButtonToolbar } from 'rsuite';
+import { Alert, FormGroup, FlexboxGrid, Form, FormControl, ControlLabel, DatePicker, Button, ButtonToolbar } from 'rsuite';
 
 class NuevoPedido extends Component {
     state = { 
@@ -36,8 +36,10 @@ class NuevoPedido extends Component {
                     direccion: '',
                     producto: '',
                     total: ''
-                }})
+                }}, ()=> Alert.success("Pedido ingresado correctamente", 5000))
             })
+        }else{
+            Alert.error("Introduzca la fecha", 5000)
         }
     }
 
