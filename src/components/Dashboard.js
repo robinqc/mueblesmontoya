@@ -22,9 +22,7 @@ function  Dashboard(props){
                 <Sidenav defaultOpenKeys={['3', '4']} activeKey={activeKey} style={{height:"92vh", maxHeight:"100%", minHeight:"100%"}}>
                     <Sidenav.Body>
                         <Nav>
-                        <div style={{padding:"10px", height:"7vh", fontSize:"20px", backgroundColor:"#002046", color:"white"}}>
-                            {props.title}
-                        </div>
+                        <h4 style={{padding:"10px", height:"7vh", backgroundColor:"#002046", color:"white", textAlign:"center"}}>{props.title}</h4>
                         <Dropdown eventKey="3" activeKey="1" title="Pedidos" icon={<Icon icon="edit" />}>
                         <Dropdown.Item eventKey="3-1" componentClass={Link} to={`${url}/hoy`} onClick={()=>setActiveKey("3-1")}>Pedidos de Hoy</Dropdown.Item>
                         <Dropdown.Item eventKey="3-2" componentClass={Link} to={`${url}/pendientes`} onClick={()=>setActiveKey("3-2")}>Pedidos pendientes</Dropdown.Item>
@@ -32,25 +30,25 @@ function  Dashboard(props){
                         <Dropdown.Item eventKey="3-4" componentClass={Link} to={`${url}/entregados`} onClick={()=>setActiveKey("3-4")}>Entregados</Dropdown.Item>
                         <Dropdown.Item eventKey="3-5" componentClass={Link} to={`${url}/todos`} onClick={()=>setActiveKey("3-5")}>Todos</Dropdown.Item>
                         </Dropdown>
+                        <Dropdown eventKey="4" activeKey="1" title="Inventario" icon={<Icon icon="edit" />}>
+                        <Dropdown.Item eventKey="4-1" componentClass={Link} to={`${url}/hoy`} onClick={()=>setActiveKey("4-1")}>Inventario</Dropdown.Item>
+                        <Dropdown.Item eventKey="4-2" componentClass={Link} to={`${url}/pendientes`} onClick={()=>setActiveKey("4-2")}>Catálogo</Dropdown.Item>
+                        </Dropdown>
                         
                         </Nav>
                     </Sidenav.Body>
                     </Sidenav>
                 </FlexboxGrid.Item>
                 <FlexboxGrid.Item colspan={20}>
-                    <FlexboxGrid>
-                        <FlexboxGrid.Item colspan={16} style={{height:"92vh"}}>
-                            <Switch>
+                <Switch>
                                 <Route exact path={`${url}`}>
                                 <Pedidos key="verhoy"title={`de hoy ${props.title}`} db={props.db} filter={{
-                                    field: 'fecha',
-                                    value: new Date()
+                                    field: 'fecha'
                                 }}/>
                                 </Route>
                                 <Route path={`${url}/hoy`}>
                                 <Pedidos key="verhoy"title={`de hoy ${props.title}`} db={props.db} filter={{
-                                    field: 'fecha',
-                                    value: new Date()
+                                    field: 'fecha'
                                 }}/>
                                 </Route>
                                 <Route path={`${url}/pendientes`}>
@@ -75,9 +73,7 @@ function  Dashboard(props){
                                 <Pedidos key="vertodos" title={`de hoy ${props.title}`} db={props.db} />
                                 </Route>
                             </Switch>
-                        </FlexboxGrid.Item>
-                        <NuevoPedido db={props.db}/>
-                    </FlexboxGrid>
+                    
                 </FlexboxGrid.Item>
             </FlexboxGrid>
             </Router> 

@@ -46,13 +46,13 @@ class NuevoPedido extends Component {
     render() { 
         return ( 
             <FlexboxGrid.Item colspan={8} style={{height:"92vh", backgroundColor:"#F4F5F7"}}>
-                            <h4 style={{padding:"10px"}}>Nuevo pedido</h4>
+                            <h4 style={{padding:"10px", height:"7vh", backgroundColor:"#002046", color:"white", textAlign:"center"}}>Nuevo pedido</h4>
                             <Form fluid 
-                                style={{ padding:"0 20px", textAlign:"left"}}
+                                style={{ padding:"0 20px", textAlign:"left", height:"85vh"}}
                                 onChange={this.handleChange}
                                 formValue={this.state.formValue}
                             >
-                                <FormGroup>
+                                <FormGroup style={{paddingTop:"2vh"}}>
                                     <ControlLabel>Nombre</ControlLabel>
                                     <FormControl name="nombre" />
                                 </FormGroup>

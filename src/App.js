@@ -1,8 +1,7 @@
 import React from 'react';
 import './App.css';
 import 'rsuite/dist/styles/rsuite-default.css';
-import { FlexboxGrid, Button, Navbar, Nav, Sidenav,Dropdown, Icon, Container, Header, Content, Footer, Sidebar  } from 'rsuite';
-
+import {  Navbar, Nav, Icon, Container, Header, Content  } from 'rsuite';
 import * as firebase from 'firebase'
 import {
   BrowserRouter as Router,
@@ -23,7 +22,7 @@ const db = firebaseApp.firestore()
 
 function App() {
   return (
-      <Container className="App" style={{height:"100vh"}}> 
+      <Container className="App" style={{height:"100vh", textAlign:"left"}}> 
       <Router>
         <Header>
           
@@ -45,7 +44,7 @@ function App() {
         <Content>
               <Switch>
                 
-              <Route path="/montoya">En construcción</Route>
+              <Route path="/montoya"><Dashboard title="Montoya" db={db.collection('pedidos montoya')}/></Route>
               <Route path="/serrati"><Dashboard title="Serrati" db={db.collection('pedidos serrati')}/></Route>
             </Switch>
           

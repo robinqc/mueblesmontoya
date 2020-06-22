@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import {InputGroup, Input, Icon } from 'rsuite';
+import {InputGroup, Input, Icon, FlexboxGrid } from 'rsuite';
 import ListaPedidos from './ListaPedidos';
+import NuevoPedido from './NuevoPedido';
 
 
 class Pedidos extends Component {
@@ -47,22 +48,27 @@ class Pedidos extends Component {
 
     }
     render() { 
-        return ( <div style={{textAlign:"left"}}>
-            <InputGroup style={{
-                borderRadius:"0", 
-                borderTop:"none", 
-                borderRight:"none",
-                borderLeft:"none",
-                height:"7vh"}}  
-            >
-                <InputGroup.Button style={{borderRadius:"0"}}>
-                <Icon icon="search" />
-                </InputGroup.Button>
-                <Input placeholder="Buscar por cédula o nombre..." onChange={(value)=>this.buscar(value)} style={{height:"7vh"}}/>
-                
-            </InputGroup>
-            <ListaPedidos pedidos={this.state.encontrados} db={this.props.db}/>
-        </div> );
+        return ( 
+            
+            <FlexboxGrid>
+                <FlexboxGrid.Item colspan={16} style={{height:"92vh"}}>
+                    <InputGroup style={{
+                    borderRadius:"0", 
+                    borderTop:"none", 
+                    borderRight:"none",
+                    borderLeft:"none",
+                    height:"7vh"}}  
+                >
+                    <InputGroup.Button style={{borderRadius:"0"}}>
+                    <Icon icon="search" />
+                    </InputGroup.Button>
+                    <Input placeholder="Buscar por cédula o nombre..." onChange={(value)=>this.buscar(value)} style={{height:"7vh"}}/>
+                    
+                </InputGroup>
+                <ListaPedidos pedidos={this.state.encontrados} db={this.props.db}/>
+                </FlexboxGrid.Item>
+                <NuevoPedido db={this.props.db}/>
+            </FlexboxGrid>);
     }
 }
  

@@ -1,8 +1,8 @@
 {
   "name": "pedidos",
   "version": "1.0.0",
-  "private": true,
-  "author":{
+  "private": false,
+  "author": {
     "name": "Robin Quintero",
     "email": "marzg.zl55@gmail.com"
   },
@@ -10,6 +10,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "electron-updater": "^4.3.1",
     "firebase": "^7.15.1",
     "hide-scrollbar-react": "^1.1.6",
     "react": "^16.13.1",
@@ -35,7 +36,8 @@
   },
   "devDependencies": {
     "electron": "^9.0.4",
-    "electron-builder": "^22.7.0"
+    "electron-builder": "^22.7.0",
+    "foreman": "^3.0.1"
   },
   "homepage": "./",
   "main": "src/electron-starter.js",
@@ -56,9 +58,9 @@
     "directories": {
       "buildResources": "public"
     },
-    "extends":null,
-    "linux":{
-      "target":[
+    "extends": null,
+    "linux": {
+      "target": [
         "AppImage",
         "deb"
       ]
@@ -67,6 +69,11 @@
       "target": [
         "nsis"
       ]
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "pawntrol",
+      "repo": "mueblesmontoya"
     }
   }
 }
