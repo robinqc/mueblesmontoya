@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, FormGroup, FlexboxGrid, Form, FormControl, ControlLabel, DatePicker, Button, ButtonToolbar } from 'rsuite';
+import { Alert, FormGroup, FlexboxGrid, Form, FormControl, ControlLabel, DatePicker, Button, ButtonToolbar, CheckPicker, SelectPicker, IconButton, Icon } from 'rsuite';
 
 class NuevoPedido extends Component {
     state = { 
@@ -8,7 +8,7 @@ class NuevoPedido extends Component {
             cedula: '',
             telefono: '',
             direccion: '',
-            producto: '',
+            productos: [],
             fecha: undefined,
             total: ''
         }
@@ -16,10 +16,24 @@ class NuevoPedido extends Component {
 
     handleChange = (value) => {
         let change = value
-        console.log(value)
         this.setState({
         formValue: value
     })
+    }
+
+    handleProductos = (value) => {
+        let formValue = this.state.formValue
+        formValue.productos = []
+        value.forEach(producto => {
+            let pro = this.props.productos.find(prod => prod.value == producto.producto)
+            
+            
+            if(pro!=undefined) {
+                pro.nombre = `${producto.cantidad}x ${pro.label}`
+                formValue.productos.push(pro)
+            }
+        })
+        this.setState({formValue: formValue}, ()=>console.log(this.state))
     }
 
     nuevopedido = () => {
@@ -34,7 +48,7 @@ class NuevoPedido extends Component {
                     cedula: '',
                     telefono: '',
                     direccion: '',
-                    producto: '',
+                    productos: [],
                     total: ''
                 }}, ()=> Alert.success("Pedido ingresado correctamente", 5000))
             })
@@ -77,11 +91,9 @@ class NuevoPedido extends Component {
                                     <ControlLabel>Dirección</ControlLabel>
                                     <FormControl rows={3} name="direccion" componentClass="textarea" />
                                 </FormGroup>
-                                <FormGroup>
-                                    <ControlLabel>Producto</ControlLabel>
-                                    <FormControl rows={3} name="producto" componentClass="textarea" />
+                                <FormGroup style={{overflowY:"scroll", height:"16vh"}}>
+                                    <ProductPicker productos={this.props.productos} final={this.handleProductos}/>
                                 </FormGroup>
-                                <hr style={{margin:"2vh"}}/>
 
                                 <FlexboxGrid>
                                     <FlexboxGrid.Item colspan={11}>
@@ -126,6 +138,99 @@ class NuevoPedido extends Component {
                             </Form>
                         </FlexboxGrid.Item>
          );
+    }
+}
+
+class Picker extends Component {
+    state = { producto:"", cantidad:1, mostrar:true }
+    handleCantidad = (value) => {
+        if(value>0){
+            this.setState({cantidad:value}, ()=>this.props.submit(this.state, this.props.id))
+        }
+    }
+    handleProducto = (value) => {
+            this.setState({producto:value}, ()=>this.props.submit(this.state, this.props.id))
+    }
+    render() { 
+        return ( this.state.mostrar ? (
+            <FlexboxGrid>
+            <FlexboxGrid.Item colspan={12}>
+                <SelectPicker preventOverflow placement="leftEnd"
+                    style={{
+                        width:"100%",
+                        paddingTop:"1vh",
+                    }}
+                    size="md"
+                    value={this.state.producto}
+                    onChange={this.handleProducto}
+                    placeholder="Seleccionar"
+                    data={this.props.productos}
+                />
+            </FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={5}>
+            <FormControl style={{
+                marginTop: "1vh",
+                marginLeft:"1vh",
+                marginRight:"1vh",
+                width: "90%"
+            }}
+            name="cantidad" 
+            type="number" 
+            value={this.state.cantidad}
+            onChange={this.handleCantidad}/>
+            </FlexboxGrid.Item>
+            <FlexboxGrid.Item colspan={3}>
+                <IconButton style={{
+                        marginTop:"1vh",
+                        marginLeft: "1vh",
+                    }}  icon={<Icon icon="plus" />} appearance="primary" onClick={()=>this.props.newChild()}/>
+            </FlexboxGrid.Item>
+            {this.props.close ? (
+                <FlexboxGrid.Item colspan={3}>
+                <IconButton style={{
+                        marginTop:"1vh",
+                        marginLeft: "1vh",
+                    }} icon={<Icon icon="close" />} color="red" onClick={()=>{
+                        this.setState({mostrar: false}, ()=> this.props.borrar(this.props.id))
+                        
+                    }}/>
+            </FlexboxGrid.Item>
+            ): (<div></div>)}
+        </FlexboxGrid>
+        ):(<div style={{display:"none"}}></div>));
+    }
+}
+
+class ProductPicker extends Component {
+    constructor(props){
+        super(props)
+        this.state = { productos:[{producto: "", cantidad: 0}], children:[] }
+    }
+
+    borrar = (id)=>{
+        
+        let productos = this.state.productos
+        productos[id] = {producto: "", cantidad:0}
+        this.setState({productos: productos}, ()=>{this.props.final(this.state.productos)})
+    }
+
+    handleProductos = (value, id) => {
+        let productos = this.state.productos
+        productos[id] = value
+        this.setState({productos: productos}, ()=>{this.props.final(this.state.productos)})
+    }
+    
+    addChildren = () => {
+        this.setState(state=>({children: [...state.children, (<Picker id={this.state.productos.length} close={true} submit={this.handleProductos} borrar={(id)=>this.borrar(id)} newChild={this.addChildren} productos={this.props.productos}/>)]}))
+    }
+
+    render() { 
+        
+        return ( <div>
+            <ControlLabel>Productos</ControlLabel>
+            <Picker id={0} submit={this.handleProductos} close={false} newChild={()=>this.addChildren()} productos={this.props.productos} borrar={(id)=>this.borrar(id)}/>
+            {this.state.children}
+        </div> );
     }
 }
  

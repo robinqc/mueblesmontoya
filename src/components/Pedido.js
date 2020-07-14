@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Alert, FlexboxGrid, Panel, Button, Form, DatePicker, FormGroup, FormControl, ControlLabel, HelpBlock, Modal, SelectPicker } from 'rsuite';
 
+
+
 class Pedido extends Component {
     constructor(props){
         super(props);
@@ -62,6 +64,21 @@ class Pedido extends Component {
     cambiarEstado = () => {
         if(this.props.estado == "Pendiente" || this.props.estado == "Cambio") this.props.db.doc(this.props.id).set({estado: "Entregado"}, {merge:true})
         else if (this.props.estado == "Entregado") this.props.db.doc(this.props.id).set({estado: "Cambio"}, {merge:true})
+    }
+
+    handleProductos = (value) => {
+        let formValue = this.state.formValue
+        formValue.productos = []
+        value.forEach(producto => {
+            let pro = this.props.productos.find(prod => prod.value == producto.producto)
+            
+            
+            if(pro!=undefined) {
+                pro.nombre = `${producto.cantidad}x ${pro.label}`
+                formValue.productos.push(pro)
+            }
+        })
+        this.setState({formValue: formValue}, ()=>console.log(this.state))
     }
     render() { 
         let semana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]

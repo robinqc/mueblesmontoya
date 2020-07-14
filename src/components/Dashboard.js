@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FlexboxGrid, Sidenav, Nav, Icon, Dropdown } from 'rsuite';
+
 import {
     BrowserRouter as Router,
     Switch,
@@ -12,10 +13,14 @@ import {
   } from "react-router-dom";
 import Pedidos from './Pedidos'
 import NuevoPedido from './NuevoPedido'
+import Inventario from './Inventario'
+import Categorias from './Categorias'
 function  Dashboard(props){  
     let [activeKey, setActiveKey] = useState()
     let {path, url} = useRouteMatch()
+    let pedidosdb = props.db.collection(props.collectionpedidos)    
         return (
+            
             <Router>
             <FlexboxGrid style={{height:"92vh"}}>
                 <FlexboxGrid.Item colspan={4}>
@@ -31,8 +36,8 @@ function  Dashboard(props){
                         <Dropdown.Item eventKey="3-5" componentClass={Link} to={`${url}/todos`} onClick={()=>setActiveKey("3-5")}>Todos</Dropdown.Item>
                         </Dropdown>
                         <Dropdown eventKey="4" activeKey="1" title="Inventario" icon={<Icon icon="edit" />}>
-                        <Dropdown.Item eventKey="4-1" componentClass={Link} to={`${url}/hoy`} onClick={()=>setActiveKey("4-1")}>Inventario</Dropdown.Item>
-                        <Dropdown.Item eventKey="4-2" componentClass={Link} to={`${url}/pendientes`} onClick={()=>setActiveKey("4-2")}>Catálogo</Dropdown.Item>
+                        <Dropdown.Item eventKey="4-1" componentClass={Link} to={`${url}/inventario`} onClick={()=>setActiveKey("4-1")}>Productos</Dropdown.Item>
+                        <Dropdown.Item eventKey="4-2" componentClass={Link} to={`${url}/categorias`} onClick={()=>setActiveKey("4-2")}>Categorías</Dropdown.Item>
                         </Dropdown>
                         
                         </Nav>
@@ -42,35 +47,41 @@ function  Dashboard(props){
                 <FlexboxGrid.Item colspan={20}>
                 <Switch>
                                 <Route exact path={`${url}`}>
-                                <Pedidos key="verhoy"title={`de hoy ${props.title}`} db={props.db} filter={{
+                                <Pedidos key="verhoy"title={`de hoy ${props.title}`} db={pedidosdb} db2={props.db} filter={{
                                     field: 'fecha'
                                 }}/>
                                 </Route>
                                 <Route path={`${url}/hoy`}>
-                                <Pedidos key="verhoy"title={`de hoy ${props.title}`} db={props.db} filter={{
+                                <Pedidos key="verhoy"title={`de hoy ${props.title}`} db={pedidosdb} db2={props.db} filter={{
                                     field: 'fecha'
                                 }}/>
                                 </Route>
                                 <Route path={`${url}/pendientes`}>
-                                <Pedidos key="verpendientes" title={`de hoy ${props.title}`} db={props.db} filter={{
+                                <Pedidos key="verpendientes" title={`de hoy ${props.title}`} db={pedidosdb} db2={props.db} filter={{
                                     field: 'estado',
                                     value: 'Pendiente'
                                 }}/>
                                 </Route>
                                 <Route exact path={`${url}/cambios`}>
-                                <Pedidos key="vercambios" title={`de hoy ${props.title}`} db={props.db} filter={{
+                                <Pedidos key="vercambios" title={`de hoy ${props.title}`} db={pedidosdb} db2={props.db} filter={{
                                     field: 'estado',
                                     value: 'Cambio'
                                 }}/>
                                 </Route>
                                 <Route path={`${url}/entregados`}>
-                                <Pedidos key="verentregados" title={`de hoy ${props.title}`} db={props.db} filter={{
+                                <Pedidos key="verentregados" title={`de hoy ${props.title}`} db={pedidosdb} db2={props.db} filter={{
                                     field: 'estado',
                                     value: 'Entregado'
                                 }}/>
                                 </Route>
                                 <Route path={`${url}/todos`}>
-                                <Pedidos key="vertodos" title={`de hoy ${props.title}`} db={props.db} />
+                                <Pedidos key="vertodos" title={`de hoy ${props.title}`} db={pedidosdb} db2={props.db}/>
+                                </Route>
+                                <Route path={`${url}/inventario`}>
+                                <Inventario key="verinventario" title={`de hoy ${props.title}`} db={props.db} />
+                                </Route>
+                                <Route path={`${url}/categorias`}>
+                                <Categorias key="vercategorias" title={`de hoy ${props.title}`} db={props.db} />
                                 </Route>
                             </Switch>
                     
