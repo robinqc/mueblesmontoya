@@ -1,4 +1,8 @@
-Management system built for a furniture store using React and Electron
+Management system built for a local furniture store using React and Electron
+
+## Screenshots
+
+<img src="https://i.imgur.com/YN7RVaf.png"/>
 
 ## Run
 
@@ -19,5 +23,3 @@ You will also see any lint errors in the console.
 Packages the app for Windows and Linux platform and builds it in distribution-ready *.deb, *.AppImage and *.exe installers.
 
 This is still an ongoing project.
-
-Tengo el nombre empeñado.
