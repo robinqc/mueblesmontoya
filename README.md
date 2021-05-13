@@ -19,6 +19,6 @@ Packages the app for Windows and Linux platform and builds it in distribution-re
 
 ## Screenshots
 
-<img src="https://i.imgur.com/CMU4x7k.png"/>
-<img src="https://i.imgur.com/YN7RVaf.png"/>
+<img src="https://i.imgur.com/xCT9JcH.png"/>
+<img src="https://i.imgur.com/HAyXKFT.png"/>
 <img src="https://i.imgur.com/ayo2FSY.png"/>
