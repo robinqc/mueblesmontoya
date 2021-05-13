@@ -2,8 +2,9 @@ Management system built for a local furniture store using React and Electron
 
 ## Screenshots
 
+<img src="https://i.imgur.com/CMU4x7k.png"/>
 <img src="https://i.imgur.com/YN7RVaf.png"/>
-
+<img src="https://i.imgur.com/ayo2FSY.png"/>
 ## Run
 
 In the project directory, you can run:
